@@ -6,7 +6,13 @@
 
 To install t3 on your system, use the following one-liner:
 ```bash
-curl -sSL https://raw.githubusercontent.com/agusx1211/t3/main/t3.sh -o /usr/local/bin/t3 && chmod +x /usr/local/bin/t3
+curl -sSL https://raw.githubusercontent.com/Agusx1211/t3/refs/heads/master/t3.sh -o /usr/local/bin/t3 && chmod +x /usr/local/bin/t3
+```
+
+or
+
+```bash
+sudo sh -c 'curl -sSL https://raw.githubusercontent.com/Agusx1211/t3/refs/heads/master/t3.sh -o /usr/local/bin/t3 && chmod +x /usr/local/bin/t3'
 ```
 
 This command downloads the script to `/usr/local/bin/t3` and grants execute permissions.
