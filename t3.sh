@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Default values
-filename="tmp"
+filename="$(date +%s%3N).tmp"  # Unix timestamp in milliseconds + .tmp extension
 delay=30
 lock_mode=false
 unsafe_mode=false
@@ -14,7 +14,7 @@ Usage: t3 [OPTIONS]
 Options:
     -h, --help           Show this help message and exit.
     -n <name>, --name=<name>
-                         Specify a custom filename (default: tmp).
+                         Specify a custom filename (default: <unix_timestamp>.tmp).
     -s <seconds>, --seconds=<seconds>
                          Set the delay before deletion (default: 30).
     -l, --lock           Lock mode: wait for the delay in the foreground

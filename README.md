@@ -29,11 +29,11 @@ While this was the primary motivation, **t3** can be useful in many other scenar
 your_command | t3
 ```
 
-This saves the output of `your_command` into a file named `tmp` in the current directory, which will be deleted after 30 seconds.
+This saves the output of `your_command` into a file named `<unix timestamp>.tmp` in the current directory, which will be deleted after 30 seconds.
 
 ### Options
 
-- `-n <name>` or `--name=<name>`: Specify a custom filename (default: `tmp`).
+- `-n <name>` or `--name=<name>`: Specify a custom filename (default: `<unix timestamp>.tmp`).
 - `-s <seconds>` or `--seconds=<seconds>`: Set the delay before deletion (default: 30).
 - `-l` or `--lock`: Lock mode. Wait in the foreground for the specified time without spawning a background process.
 - `-u` or `--unsafe`: Disable safety checks, deleting the file regardless of modifications.
