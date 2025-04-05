@@ -39,17 +39,39 @@ This saves the output of `your_command` into a file named `<unix timestamp>.tmp`
 - `-u` or `--unsafe`: Disable safety checks, deleting the file regardless of modifications.
 - `-v` or `--verbose`: Enable detailed logging.
 
+You can also specify the filename or directory as a positional argument:
+
+```bash
+your_command | t3 ./myfile.txt
+your_command | t3 ./mydirectory/
+```
+
+> **Note**: If both `-n/--name` and a positional filename are provided, the value from `-n/--name` will be used, and a warning will be displayed.
+
 ### Example with Options
 
 ```bash
 # Save to a specific file
 echo "Hello, World!" | t3 -n greeting.txt -s 60 -v
+# or
+echo "Hello, World!" | t3 greeting.txt -s 60 -v
 
 # Save to a directory with timestamp-based name
 echo "Hello, World!" | t3 -n /path/to/directory -s 60 -v
+# or
+echo "Hello, World!" | t3 /path/to/directory -s 60 -v
+
+# Warning example (both methods used)
+echo "Hello, World!" | t3 -n file1.txt file2.txt
+# Warning: Both -n/--name and positional filename provided. Using -n/--name value.
 ```
 
-The first example saves the message into `greeting.txt`, which will be deleted after 60 seconds. The second example saves the message into a file with a timestamp-based name inside the specified directory. Verbose mode provides detailed logs throughout the process.
+The examples show different ways to save the output:
+- To a specific file (using either `-n` option or positional argument)
+- To a directory with a timestamp-based name (using either `-n` option or positional argument)
+- What happens when both methods are used (warning is shown)
+
+Verbose mode provides detailed logs throughout the process.
 
 ## License
 

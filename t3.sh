@@ -7,9 +7,10 @@ lock_mode=false
 unsafe_mode=false
 verbose_mode=false
 hash_algorithm="sha256sum"
+positional_filename=""
 
 help_message="
-Usage: t3 [OPTIONS]
+Usage: t3 [OPTIONS] [FILE|DIRECTORY]
 
 Options:
     -h, --help           Show this help message and exit.
@@ -40,6 +41,17 @@ log_message() {
     fi
 }
 
+# Function to set filename from path
+set_filename() {
+    local path="$1"
+    if [ -d "$path" ]; then
+        # If it's a directory, append the timestamp filename
+        filename="$path/$(date +%s%3N).tmp"
+    else
+        filename="$path"
+    fi
+}
+
 # Parse arguments
 while [[ "$1" != "" ]]; do
     case $1 in
@@ -48,12 +60,11 @@ while [[ "$1" != "" ]]; do
             exit 0
             ;;
         -n | --name)
-            if [ -d "$2" ]; then
-                # If it's a directory, append the timestamp filename
-                filename="$2/$(date +%s%3N).tmp"
-            else
-                filename="$2"
+            if [ -n "$positional_filename" ]; then
+                echo "Warning: Both -n/--name and positional filename provided. Using -n/--name value." >&2
+                log_message "WARNING" "Both -n/--name and positional filename provided. Using -n/--name value."
             fi
+            set_filename "$2"
             shift
             ;;
         -s | --seconds)
@@ -70,9 +81,20 @@ while [[ "$1" != "" ]]; do
             verbose_mode=true
             ;;
         *)
-            echo "Invalid option: $1" >&2
-            echo "$help_message" >&2
-            exit 1
+            # If it's not an option, treat it as a filename/directory
+            if [[ "$1" != -* ]]; then
+                if [ -n "$filename" ] && [ "$filename" != "$(date +%s%3N).tmp" ]; then
+                    echo "Warning: Both -n/--name and positional filename provided. Using -n/--name value." >&2
+                    log_message "WARNING" "Both -n/--name and positional filename provided. Using -n/--name value."
+                else
+                    set_filename "$1"
+                fi
+                positional_filename="$1"
+            else
+                echo "Invalid option: $1" >&2
+                echo "$help_message" >&2
+                exit 1
+            fi
             ;;
     esac
     shift
