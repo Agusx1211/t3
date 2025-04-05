@@ -33,7 +33,7 @@ This saves the output of `your_command` into a file named `<unix timestamp>.tmp`
 
 ### Options
 
-- `-n <name>` or `--name=<name>`: Specify a custom filename (default: `<unix timestamp>.tmp`).
+- `-n <name>` or `--name=<name>`: Specify a custom filename or directory path. If a directory is specified, the file will be created inside it with the default timestamp-based name (default: `<unix timestamp>.tmp`).
 - `-s <seconds>` or `--seconds=<seconds>`: Set the delay before deletion (default: 30).
 - `-l` or `--lock`: Lock mode. Wait in the foreground for the specified time without spawning a background process.
 - `-u` or `--unsafe`: Disable safety checks, deleting the file regardless of modifications.
@@ -42,10 +42,14 @@ This saves the output of `your_command` into a file named `<unix timestamp>.tmp`
 ### Example with Options
 
 ```bash
+# Save to a specific file
 echo "Hello, World!" | t3 -n greeting.txt -s 60 -v
+
+# Save to a directory with timestamp-based name
+echo "Hello, World!" | t3 -n /path/to/directory -s 60 -v
 ```
 
-This saves the message into `greeting.txt`, which will be deleted after 60 seconds. Verbose mode provides detailed logs throughout the process.
+The first example saves the message into `greeting.txt`, which will be deleted after 60 seconds. The second example saves the message into a file with a timestamp-based name inside the specified directory. Verbose mode provides detailed logs throughout the process.
 
 ## License
 

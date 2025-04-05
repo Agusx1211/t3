@@ -14,7 +14,9 @@ Usage: t3 [OPTIONS]
 Options:
     -h, --help           Show this help message and exit.
     -n <name>, --name=<name>
-                         Specify a custom filename (default: <unix_timestamp>.tmp).
+                         Specify a custom filename or directory (default: <unix_timestamp>.tmp).
+                         If a directory is specified, the file will be created inside it with
+                         the default timestamp-based name.
     -s <seconds>, --seconds=<seconds>
                          Set the delay before deletion (default: 30).
     -l, --lock           Lock mode: wait for the delay in the foreground
@@ -46,7 +48,12 @@ while [[ "$1" != "" ]]; do
             exit 0
             ;;
         -n | --name)
-            filename="$2"
+            if [ -d "$2" ]; then
+                # If it's a directory, append the timestamp filename
+                filename="$2/$(date +%s%3N).tmp"
+            else
+                filename="$2"
+            fi
             shift
             ;;
         -s | --seconds)
